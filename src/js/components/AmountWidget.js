@@ -33,15 +33,15 @@ export class AmountWidget {
     const thisWidget = this;
 
     thisWidget.input.addEventListener('change', function(){
-      this.Widget.setValue(thisWidget.input.value)
+      this.Widget.setValue(thisWidget.input.value);
     });
     thisWidget.linkDecrease.addEventListener('click', function(event){
       event.preventDefault();
-      thisWidget.setValue(thisWidget.value - 1)
+      thisWidget.setValue(thisWidget.value - 1);
     });
     thisWidget.linkIncrease.addEventListener('click', function(event){
       event.preventDefault();
-      thisWidget.setValue(thisWidget.value + 1)
+      thisWidget.setValue(thisWidget.value + 1);
     });
   }
 }
