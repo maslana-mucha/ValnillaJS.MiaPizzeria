@@ -97,6 +97,7 @@
       thisProduct.priceElem = thisProduct.element.querySelector(
         select.menuProduct.priceElem
       );
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
     initAccordion() {
       const thisProduct = this;
@@ -160,19 +161,19 @@
       thisProduct.params = {};
       /* define price */
       let price = thisProduct.data.price;
-      console.log('price is: ', price);
+      // console.log('price is: ', price);
       /* START LOOP: for each paramId in thisProduct.data.params */
       for (let paramId in thisProduct.data.params){
       // console.log(thisProduct.data.params);
         /* save the element in thisProduct.data.params with key paramId as const param */
         const param = thisProduct.data.params[paramId];
-        console.log('param is: ', param);
+        // console.log('param is: ', param);
 
         /* START LOOP: for each optionId in param.options */
         for(let optionId in param.options){
         /* save the element in param.options with key optionId as const option */
           const option = param.options[optionId];
-          console.log('option is: ', option);
+          // console.log('option is: ', option);
           /* START IF: check if option selected isn't default and raise the price */
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
           // console.log('selected option: ', optionSelected);
@@ -183,6 +184,18 @@
           } else if (!optionSelected && option.default){
             price -= option.price;
             //console.log('price decrease to: ', price);
+          }
+
+          const optionImages = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
+          console.log('option image is: ', optionImages);
+          if(optionSelected){
+            for (let activeImage of optionImages) {
+              activeImage.classList.add(classNames.menuProduct.imageVisible);
+            }
+          } else {
+            for (let activeImage of optionImages) {
+              activeImage.classList.remove(classNames.menuProduct.imageVisible);
+            }
           }
         /* END LOOP: for each option */
         }
