@@ -151,7 +151,45 @@
     }
     processOrder(){
       const thisProduct = this;
-      console.log('processOrder!');
+
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      // console.log('formData ', formData);
+      // console.log('processOrder!');
+
+      /* create object params */
+      thisProduct.params = {};
+      /* define price */
+      let price = thisProduct.data.price;
+      console.log('price is: ', price);
+      /* START LOOP: for each paramId in thisProduct.data.params */
+      for (let paramId in thisProduct.data.params){
+      // console.log(thisProduct.data.params);
+        /* save the element in thisProduct.data.params with key paramId as const param */
+        const param = thisProduct.data.params[paramId];
+        console.log('param is: ', param);
+
+        /* START LOOP: for each optionId in param.options */
+        for(let optionId in param.options){
+        /* save the element in param.options with key optionId as const option */
+          const option = param.options[optionId];
+          console.log('option is: ', option);
+          /* START IF: check if option selected isn't default and raise the price */
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          // console.log('selected option: ', optionSelected);
+          if (optionSelected && !option.default) {
+            price += option.price;
+            //console.log('price increase to: ', price);
+          /* check if default option isn't selected lower the price */
+          } else if (!optionSelected && option.default){
+            price -= option.price;
+            //console.log('price decrease to: ', price);
+          }
+        /* END LOOP: for each option */
+        }
+      /* END LOOP: for each param */
+      }
+      /* add price to the priceWrapper */
+      thisProduct.priceElem.innerHTML = price;
     }
   }
 
