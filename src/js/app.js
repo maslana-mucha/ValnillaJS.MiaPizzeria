@@ -1,7 +1,8 @@
 import {Product} from './components/Product.js';
+import {Cart} from './components/Cart.js';
 //import {AmountWidget} from './components/AmountWidget.js';
 import {dataSource} from './data.js';
-// import {select} from './settings.js';
+import {select} from './settings.js';
 
 const app = {
   initMenu(){
@@ -17,6 +18,12 @@ const app = {
 
     thisApp.data = dataSource;
   },
+  initCart: function(){
+    const thisApp = this;
+
+    const cartElem = document.querySelector(select.containerOf.cart);
+    thisApp.cart = new Cart(cartElem);
+  },
   init: function(){
     const thisApp = this;
     //console.log('*** App starting ***');
@@ -27,6 +34,7 @@ const app = {
 
     thisApp.initData();
     thisApp.initMenu();
+    thisApp.initCart();
   },
 };
 
