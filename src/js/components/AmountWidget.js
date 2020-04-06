@@ -34,7 +34,7 @@ export class AmountWidget {
     }
 
     thisWidget.input.value = thisWidget.value;
-    console.log('widget value: ', thisWidget.value);
+    // console.log('widget value: ', thisWidget.value);
   }
   initActions(){
     const thisWidget = this;

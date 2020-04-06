@@ -4,7 +4,7 @@ import {Cart} from './components/Cart.js';
 import {dataSource} from './data.js';
 import {select} from './settings.js';
 
-const app = {
+export const app = {
   initMenu(){
     const thisApp = this;
     //console.log('thisApp.data: ', thisApp.data);

@@ -1,6 +1,7 @@
 import {select, classNames, templates } from '../settings.js';
 import {utils} from '../utils.js';
 import {AmountWidget} from './AmountWidget.js';
+import {app} from '../app.js';
 
 export class Product {
   constructor(id, data) {
@@ -17,7 +18,7 @@ export class Product {
 
     // console.log('new Product: ', thisProduct);
   }
-  renderInMenu() {
+  renderInMenu(){
     const thisProduct = this;
 
     /* generate HTML based on template */
@@ -31,7 +32,7 @@ export class Product {
     /* add element to menu */
     menuContainer.appendChild(thisProduct.element);
   }
-  getElements() {
+  getElements(){
     const thisProduct = this;
 
     thisProduct.accordionTrigger = thisProduct.element.querySelector(
@@ -58,7 +59,7 @@ export class Product {
     );
     //console.log('amountWidgetElem is: ', thisProduct.amountWidgetElem);
   }
-  initAccordion() {
+  initAccordion(){
     const thisProduct = this;
 
     /* find the clickable trigger (the element that should react to clicking) */
@@ -87,7 +88,7 @@ export class Product {
       }
     });
   }
-  initOrderForm() {
+  initOrderForm(){
     const thisProduct = this;
     // console.log('initOrderForm!');
 
@@ -105,9 +106,10 @@ export class Product {
     thisProduct.cartButton.addEventListener('click', function (event) {
       event.preventDefault();
       thisProduct.processOrder();
+      thisProduct.addToCart();
     });
   }
-  processOrder() {
+  processOrder(){
     const thisProduct = this;
 
     const formData = utils.serializeFormToObject(thisProduct.form);
@@ -149,7 +151,15 @@ export class Product {
           '.' + paramId + '-' + optionId
         );
         //console.log('option image is: ', optionImages);
-        if (optionSelected) {
+        if (optionSelected){
+          if (!thisProduct.params[paramId]){
+            thisProduct.params[paramId] = {
+              label: param.label,
+              options: {},
+            };
+          }
+          thisProduct.params[paramId].options[optionId] = option.label;
+          //console.log(option.label);
           for (let activeImage of optionImages) {
             activeImage.classList.add(classNames.menuProduct.imageVisible);
           }
@@ -162,11 +172,14 @@ export class Product {
       }
       /* END LOOP: for each param */
     }
+    // console.log('thisProduct.params: ', thisProduct.params);
     /* multiply price by amount */
-    price *=thisProduct.amountWidget.value;
-    /* add price to the priceWrapper */
-    thisProduct.priceElem.innerHTML = price;
-    console.log('product price is: ', price);
+    thisProduct.priceSingle = price;
+    thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
+
+    /* set the contents of thisProduct.priceElem to be the value of variable price */
+    thisProduct.priceElem.innerHTML = thisProduct.price;
+    // console.log('product price is: ', price);
   }
   initAmountWidget(){
     const thisProduct = this;
@@ -176,6 +189,15 @@ export class Product {
     thisProduct.amountWidgetElem.addEventListener('updated',function(){
       thisProduct.processOrder();
     });
+  }
+  addToCart(){
+    const thisProduct = this;
+    // console.log('add to cart!');
+
+    thisProduct.name = thisProduct.data.name;
+    thisProduct.amount = thisProduct.amountWidget.value;
+
+    app.cart.add(thisProduct);
   }
 }
 
