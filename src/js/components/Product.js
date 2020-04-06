@@ -52,9 +52,11 @@ export class Product {
     thisProduct.imageWrapper = thisProduct.element.querySelector(
       select.menuProduct.imageWrapper
     );
-    thisProduct.AmountWidgetElem = thisProduct.element.querySelector(
+    //console.log('imageWrapper is: ', thisProduct.imageWrapper);
+    thisProduct.amountWidgetElem = thisProduct.element.querySelector(
       select.menuProduct.amountWidget
     );
+    //console.log('amountWidgetElem is: ', thisProduct.amountWidgetElem);
   }
   initAccordion() {
     const thisProduct = this;
@@ -160,6 +162,8 @@ export class Product {
       }
       /* END LOOP: for each param */
     }
+    /* multiply price by amount */
+    price *=thisProduct.amountWidget.value;
     /* add price to the priceWrapper */
     thisProduct.priceElem.innerHTML = price;
     console.log('product price is: ', price);
@@ -168,6 +172,10 @@ export class Product {
     const thisProduct = this;
 
     thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+
+    thisProduct.amountWidgetElem.addEventListener('updated',function(){
+      thisProduct.processOrder();
+    });
   }
 }
 

@@ -1,6 +1,7 @@
 import {Product} from './components/Product.js';
 //import {AmountWidget} from './components/AmountWidget.js';
 import {dataSource} from './data.js';
+// import {select} from './settings.js';
 
 const app = {
   initMenu(){
