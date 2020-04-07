@@ -72,7 +72,7 @@ export const settings = {
   }, // CODE CHANGED
   // CODE ADDED START
   cart: {
-    defaultDeliveryFee: 20,
+    defaultDeliveryFee: 8,
   },
   // CODE ADDED END
 };
