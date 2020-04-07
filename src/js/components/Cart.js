@@ -1,7 +1,6 @@
 import {select, classNames, templates, settings} from '../settings.js';
 import { utils } from '../utils.js';
 import { CartProduct } from './CartProduct.js';
-import { AmountWidget } from './AmountWidget.js';
 
 export class Cart {
   constructor(element){
@@ -42,6 +41,9 @@ export class Cart {
 
     thisCart.dom.toggleTrigger.addEventListener('click', function(){
       thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+    });
+    thisCart.dom.productList.addEventListener('updated', function () {
+      thisCart.update();
     });
   }
   add(menuProduct){
