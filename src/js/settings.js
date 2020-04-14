@@ -75,6 +75,11 @@ export const settings = {
     defaultDeliveryFee: 8,
   },
   // CODE ADDED END
+  db: {
+    url: '//localhost:3131',
+    product: 'product',
+    order: 'order',
+  },
 };
 
 export const templates = {

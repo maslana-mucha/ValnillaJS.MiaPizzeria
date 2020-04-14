@@ -14,6 +14,7 @@ export class CartProduct{
 
     thisCartProduct.getElements(element);
     thisCartProduct.initAmountWidget();
+    thisCartProduct.initActions();
     //console.log('thisCartProduct: ', thisCartProduct);
   }
   getElements(element){
@@ -40,5 +41,42 @@ export class CartProduct{
       // console.log('thisCartProduct price is: ', thisCartProduct.price);
       thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
     });
+  }
+  remove(){
+    const thisCartProduct = this;
+
+    const event = new CustomEvent('remove', {
+      bubbles: true,
+      detail: {
+        cartProduct: thisCartProduct,
+      },
+    });
+    thisCartProduct.dom.wrapper.dispatchEvent(event);
+  }
+  initActions(){
+    const thisCartProduct = this;
+
+    thisCartProduct.dom.edit.addEventListener('click', function(event){
+      event.preventDefault();
+
+    });
+    thisCartProduct.dom.remove.addEventListener('click', function (event) {
+      event.preventDefault();
+      thisCartProduct.remove();
+      console.log('cart product was removed!');
+    });
+  }
+  getData(){
+    const thisCartProduct = this;
+
+    const productData = {
+      id: thisCartProduct.id,
+      price: thisCartProduct.price,
+      priceSingle: thisCartProduct.priceSingle,
+      amount: thisCartProduct.amount,
+      params: thisCartProduct.params,
+    };
+    //console.log('product data:', productData);
+    return productData;
   }
 }
