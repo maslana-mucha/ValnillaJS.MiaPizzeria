@@ -53,14 +53,15 @@ export class CartProduct{
     });
     thisCartProduct.dom.wrapper.dispatchEvent(event);
   }
+
   initActions(){
     const thisCartProduct = this;
 
     thisCartProduct.dom.edit.addEventListener('click', function(event){
       event.preventDefault();
-
+      console.log('cart product was edited!');
     });
-    thisCartProduct.dom.remove.addEventListener('click', function (event) {
+    thisCartProduct.dom.remove.addEventListener('click', function(event){
       event.preventDefault();
       thisCartProduct.remove();
       console.log('cart product was removed!');

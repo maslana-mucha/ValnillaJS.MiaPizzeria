@@ -54,6 +54,7 @@ export class Cart {
     thisCart.dom.form.addEventListener('submit', function(event){
       event.preventDefault();
       thisCart.sendOrder();
+      thisCart.returnToDefault();
     });
   }
   add(menuProduct){
@@ -86,7 +87,7 @@ export class Cart {
       thisCart.subtotalPrice += product.price;
       thisCart.totalNumber += product.amount;
     }
-    thisCart.totalPrice = thisCart.subtotalPrice * thisCart.totalNumber;
+    thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
     /* console.log(
       'this cart numbers: ',
       thisCart.totalNumber,
@@ -144,5 +145,10 @@ export class Cart {
       }).then(function(parsedResponse){
         console.log('parsed response: ', parsedResponse);
       });
+  }
+  returnToDefault(){
+    const thisCart = this;
+    console.log(thisCart);
+
   }
 }

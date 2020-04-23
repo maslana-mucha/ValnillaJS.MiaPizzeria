@@ -1,4 +1,4 @@
-import {select, classNames, templates } from '../settings.js';
+import {select, settings, classNames, templates } from '../settings.js';
 import {utils} from '../utils.js';
 import {AmountWidget} from './AmountWidget.js';
 import {app} from '../app.js';
@@ -50,6 +50,7 @@ export class Product {
     thisProduct.priceElem = thisProduct.element.querySelector(
       select.menuProduct.priceElem
     );
+    //console.log(thisProduct.priceElem);
     thisProduct.imageWrapper = thisProduct.element.querySelector(
       select.menuProduct.imageWrapper
     );
@@ -58,6 +59,10 @@ export class Product {
       select.menuProduct.amountWidget
     );
     //console.log('amountWidgetElem is: ', thisProduct.amountWidgetElem);
+    thisProduct.amountWidgetInput = thisProduct.element.querySelector(
+      select.widgets.amount.input
+    );
+    //console.log('amountWidget is: ', thisProduct.amountWidgetInput);
   }
   initAccordion(){
     const thisProduct = this;
@@ -97,7 +102,7 @@ export class Product {
       thisProduct.processOrder();
     });
 
-    for (let input of thisProduct.formInputs) {
+    for(let input of thisProduct.formInputs){
       input.addEventListener('change', function () {
         thisProduct.processOrder();
       });
@@ -107,6 +112,7 @@ export class Product {
       event.preventDefault();
       thisProduct.processOrder();
       thisProduct.addToCart();
+      thisProduct.returnToDefault();
     });
   }
   processOrder(){
@@ -199,6 +205,31 @@ export class Product {
 
     app.cart.add(thisProduct);
   }
-}
+  returnToDefault(){
+    const thisProduct = this;
 
-export default Product;
+    const formData = utils.serializeFormToObject(thisProduct.form);
+
+    for (let paramId in thisProduct.data.params) {
+      const param = thisProduct.data.params[paramId];
+      //console.log('param: ', param);
+      for (let optionId in param.options) {
+        const option = param.options[optionId];
+        //console.log('option: ', option);
+        const optionSelected =
+          formData.hasOwnProperty(paramId) &&
+          formData[paramId].indexOf(optionId) > -1;
+
+        if (optionSelected && !option.default) {
+          console.log();
+        }
+      }
+    }
+
+    const amountWidget = thisProduct.amountWidgetInput;
+    amountWidget.value = settings.amountWidget.defaultValue;
+    //console.log(amountWidget.value);
+
+    thisProduct.priceElem.innerHTML = thisProduct.data.price;
+  }
+}

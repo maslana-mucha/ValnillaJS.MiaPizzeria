@@ -6,7 +6,9 @@
       "name": "Zio Stefano's Doughnut",
       "price": 3,
       "description": "Treat yourself with this soft, freshly baked cookie. The recipe has been handed down from generation to generation in our family and it has won us several first place prizes in local competitions.",
-      "images": ["<img class=\"active\" src=\"images/doughnut.svg\">"]
+      "images": [
+        "<img class=\"active\" src=\"images/doughnut.svg\">"
+      ]
     },
     {
       "id": "breakfast",
@@ -14,7 +16,9 @@
       "name": "Zia Giulia's Breakfast",
       "price": 9,
       "description": "There's no better way to start your day than indulging yourself with a cup of fresh Italian coffee and crispy waffels. Made just for you on the spot, this breakfast combo has been our guests' favorite for over 50 years.",
-      "images": ["<img class=\"active\" src=\"images/breakfast.svg\">"],
+      "images": [
+        "<img class=\"active\" src=\"images/breakfast.svg\">"
+      ],
       "params": {
         "coffee": {
           "label": "Coffee type",
@@ -51,14 +55,14 @@
         "<img class=\"active sauce-tomato\" src=\"images/pizza/tomato-sauce.svg\">",
         "<img class=\"active sauce-cream\" src=\"images/pizza/sour-cream.svg\">",
         "<img class=\"active toppings-salami\" src=\"images/pizza/salami.svg\">",
+        "<img class=\"active toppings-bacon\" src=\"images/pizza/bacon.svg\">",
         "<img class=\"active toppings-olives\" src=\"images/pizza/olives.svg\">",
         "<img class=\"active toppings-redPeppers\" src=\"images/pizza/red-peppers.svg\">",
         "<img class=\"active toppings-greenPeppers\" src=\"images/pizza/green-peppers.svg\">",
         "<img class=\"active toppings-mushrooms\" src=\"images/pizza/mushrooms.svg\">",
         "<img class=\"active toppings-basil\" src=\"images/pizza/basil.svg\">",
-        "<img class=\"toppings-corn\" src=\"images/pizza/corn.svg\">",
-        "<img class=\"toppings-pineapple\" src=\"images/pizza/pineapple.svg\">",
-        "<img class=\"toppings-bacon\" src=\"images/pizza/bacon.svg\">"
+        "<img class=\"active toppings-corn\" src=\"images/pizza/corn.svg\">",
+        "<img class=\"active toppings-pineapple\" src=\"images/pizza/pineapple.svg\">"
       ],
       "params": {
         "sauce": {
