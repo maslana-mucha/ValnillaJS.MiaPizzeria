@@ -1,4 +1,4 @@
-import {select, classNames, templates } from '../settings.js';
+import {select, settings, classNames, templates } from '../settings.js';
 import {utils} from '../utils.js';
 import {AmountWidget} from './AmountWidget.js';
 import {app} from '../app.js';
@@ -209,24 +209,26 @@ export class Product {
   returnToDefault(){
     const thisProduct = this;
 
-    /* generate HTML based on template */
+    /* generate HTML based on template
     const generatedHTML = templates.menuProduct(thisProduct.initialData);
     //console.log('generatedHTML is: ', generatedHTML);
-    /* create element DOM using utils.createElementFromHTML */
+    /* create element DOM using utils.createElementFromHTML
     thisProduct.element = utils.createDOMFromHTML(generatedHTML);
     //console.log(thisProduct.element);
     /* find menu container */
     const menuContainer = document.querySelector(select.containerOf.menu);
     console.log(menuContainer);
-    /* add element to menu */
-    menuContainer.appendChild(thisProduct.element);
+    /* add element to menu
+    menuContainer.appendChild(thisProduct.element); */
 
-    /*
+
+    thisProduct.amountWidget.value = settings.amountWidget.defaultValue;
+    console.log(thisProduct.amountWidget.value);
+
     const amountWidget = thisProduct.amountWidgetInput;
     amountWidget.value = settings.amountWidget.defaultValue;
-    //console.log(amountWidget.value);
 
-    thisProduct.priceElem.innerHTML = thisProduct.data.price;
-    */
+    thisProduct.processOrder();
+    console.log(thisProduct.price);
   }
 }

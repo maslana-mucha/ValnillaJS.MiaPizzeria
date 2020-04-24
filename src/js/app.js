@@ -5,6 +5,27 @@ import {Cart} from './components/Cart.js';
 import {select, settings} from './settings.js';
 
 export const app = {
+  initPages: function(){
+    const thisApp = this;
+
+    thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
+
+    thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
+    console.log(thisApp.navLinks);
+
+    thisApp.activatePage(thisApp.pages[0].id);
+
+    for(let link of thisApp.navLinks){
+      link.addEventListener('click', function(event){
+        const clickedElement = this;
+        console.log(clickedElement);
+        event.preventDefault();
+        /* TODO: get page id from href */
+
+        /* TODO: activate page */
+      });
+    }
+  },
   initMenu(){
     const thisApp = this;
     //console.log('thisApp.data: ', thisApp.data);
@@ -45,6 +66,7 @@ export const app = {
     //console.log('*** App starting ***');
     //console.log('thisApp:', thisApp);
 
+    thisApp.initPages();
     thisApp.initData();
     //thisApp.initMenu(); //deleting according to AJAX impl
     thisApp.initCart();
