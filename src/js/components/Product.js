@@ -1,4 +1,4 @@
-import {select, settings, classNames, templates } from '../settings.js';
+import {select, classNames, templates } from '../settings.js';
 import {utils} from '../utils.js';
 import {AmountWidget} from './AmountWidget.js';
 import {app} from '../app.js';
@@ -8,6 +8,7 @@ export class Product {
     const thisProduct = this;
     thisProduct.id = id;
     thisProduct.data = data;
+    thisProduct.initialData = data;
 
     thisProduct.renderInMenu();
     thisProduct.getElements();
@@ -208,28 +209,24 @@ export class Product {
   returnToDefault(){
     const thisProduct = this;
 
-    const formData = utils.serializeFormToObject(thisProduct.form);
+    /* generate HTML based on template */
+    const generatedHTML = templates.menuProduct(thisProduct.initialData);
+    //console.log('generatedHTML is: ', generatedHTML);
+    /* create element DOM using utils.createElementFromHTML */
+    thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+    //console.log(thisProduct.element);
+    /* find menu container */
+    const menuContainer = document.querySelector(select.containerOf.menu);
+    console.log(menuContainer);
+    /* add element to menu */
+    menuContainer.appendChild(thisProduct.element);
 
-    for (let paramId in thisProduct.data.params) {
-      const param = thisProduct.data.params[paramId];
-      //console.log('param: ', param);
-      for (let optionId in param.options) {
-        const option = param.options[optionId];
-        //console.log('option: ', option);
-        const optionSelected =
-          formData.hasOwnProperty(paramId) &&
-          formData[paramId].indexOf(optionId) > -1;
-
-        if (optionSelected && !option.default) {
-          console.log();
-        }
-      }
-    }
-
+    /*
     const amountWidget = thisProduct.amountWidgetInput;
     amountWidget.value = settings.amountWidget.defaultValue;
     //console.log(amountWidget.value);
 
     thisProduct.priceElem.innerHTML = thisProduct.data.price;
+    */
   }
 }
