@@ -17,19 +17,20 @@ export class Product {
     thisProduct.initAmountWidget();
     thisProduct.processOrder();
 
-    // console.log('new Product: ', thisProduct);
+    //console.log('new Product: ', thisProduct);
   }
   renderInMenu(){
     const thisProduct = this;
 
     /* generate HTML based on template */
     const generatedHTML = templates.menuProduct(thisProduct.data);
-    // console.log('generatedHTML is: ', generatedHTML);
+    //console.log('generatedHTML is: ', generatedHTML);
     /* create element DOM using utils.createElementFromHTML */
     thisProduct.element = utils.createDOMFromHTML(generatedHTML);
     // console.log(thisProduct.element);
     /* find menu container */
     const menuContainer = document.querySelector(select.containerOf.menu);
+    //console.log(menuContainer);
     /* add element to menu */
     menuContainer.appendChild(thisProduct.element);
   }
@@ -120,8 +121,8 @@ export class Product {
     const thisProduct = this;
 
     const formData = utils.serializeFormToObject(thisProduct.form);
-    // console.log('formData ', formData);
-    // console.log('processOrder!');
+    //console.log('formData ', formData);
+    //console.log('processOrder!');
 
     /* create object params */
     thisProduct.params = {};
@@ -223,12 +224,12 @@ export class Product {
 
 
     thisProduct.amountWidget.value = settings.amountWidget.defaultValue;
-    console.log(thisProduct.amountWidget.value);
+    //console.log(thisProduct.amountWidget.value);
 
     const amountWidget = thisProduct.amountWidgetInput;
     amountWidget.value = settings.amountWidget.defaultValue;
 
     thisProduct.processOrder();
-    console.log(thisProduct.price);
+    //console.log(thisProduct.price);
   }
 }
