@@ -30,6 +30,10 @@ export class BaseWidget {
   isValid(newValue){
     return !isNaN(newValue);
   }
+  renderValue(){
+    const thisWidget = this;
+    console.log('widget value: ', thisWidget.value);
+  }
   announce(){
     const thisWidget = this;
 
