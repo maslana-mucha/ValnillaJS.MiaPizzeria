@@ -1,3 +1,5 @@
+// eslint-disable-line no-unused-vars
+
 export class BaseWidget {
   constructor(wrapperElem, initialValue){
     const thisWidget = this;
@@ -32,7 +34,7 @@ export class BaseWidget {
   }
   renderValue(){
     const thisWidget = this;
-    console.log('widget value: ', thisWidget.value);
+    //console.log('widget value: ', thisWidget.value);
   }
   announce(){
     const thisWidget = this;
