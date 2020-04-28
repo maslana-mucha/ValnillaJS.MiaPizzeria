@@ -29,6 +29,9 @@ export class Booking {
     );
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
+    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(
+      select.booking.tables
+    );
   }
   initWidgets(){
     const thisBooking = this;
@@ -93,17 +96,68 @@ export class Booking {
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
       });
   }
-  parseData(eventsCurrent){
+  parseData(bookings, eventsCurrent, eventsRepeat){
     const thisBooking = this;
 
     thisBooking.booked = {};
 
     for(let event of eventsCurrent){
-      console.log('each event:', event);
-      event.makeBooked(event.date, event.hour, event.duration, event.table);
+      //console.log('Event current:', event);
+      thisBooking.makeBooked(event.date, event.hour, event.duration, event.table);
     }
+    for(let event of bookings){
+      //console.log('Booking:', event);
+      thisBooking.makeBooked(
+        event.date,
+        event.hour,
+        event.duration,
+        event.table
+      );
+    }
+    for(let event of eventsRepeat){
+      console.log('Event repeat: ', event);
+      if(event.repeat == 'daily'){ // sprawdzamy czy element w tablicy jest "daily"
+        for (let date = thisBooking.datePicker.minDate; date <= thisBooking.datePicker.maxDate; date = utils.addDays(date, 1)){
+          thisBooking.makeBooked(utils.dateToStr(date), event.hour, event.duration, event.table);
+        }
+      }
+      if (event.repeat == 'weekly') {
+        for (
+          let date = thisBooking.datePicker.minDate;
+          date <= thisBooking.datePicker.maxDate;
+          date = utils.addDays(date, 7)
+        ) {
+          thisBooking.makeBooked(
+            utils.dateToStr(date),
+            event.hour,
+            event.duration,
+            event.table
+          );
+        }
+      }
+    }
+    console.log('Bookings: ', thisBooking.booked);
   }
-  makeBooked(){
+  makeBooked(date, hour, duration, table){
+    const thisBooking = this;
 
+    //console.log(thisBooking.booked[date]); //undefined!
+
+    if (typeof thisBooking.booked[date] == 'undefined') {
+      // jeżeli wartość podanego argumentu (data w obiekcie thisBooking.booked) będzie undefined
+      thisBooking.booked[date] = {}; // to stwórz nowy obiekt thisBooking.booked[date]
+    }
+
+    const bookedTime = utils.hourToNumber(hour);
+    //console.log('booked time: ', bookedTime);
+
+    for(let hourBlock = bookedTime; hourBlock < bookedTime + duration; hourBlock += 0.5){
+      // blockHour = 12.5; pętla wykona iteracje od 12.5 + 4 (8 raz 30min), po 30min każda iteracja = 16:00. (12.5 13 13.5 14 14.5 15 15.5 16)
+      if (typeof thisBooking.booked[date][hourBlock] == 'undefined') {
+        thisBooking.booked[date][hourBlock] = []; // tworzymy tablice z obkietu i bookedHour z wartościa początkową 12.5
+      }
+      thisBooking.booked[date][hourBlock].push(table); //po kazdej iteracji dodajemy na koniec tablicy table
+    }
+    //koniec rezerwacji
   }
 }
