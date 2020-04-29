@@ -32,6 +32,7 @@ export class Booking {
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(
       select.booking.tables
     );
+    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
   }
   initWidgets(){
     const thisBooking = this;
@@ -40,6 +41,10 @@ export class Booking {
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
+
+    thisBooking.dom.wrapper.addEventListener('updated', function(){
+      thisBooking.updateDOM();
+    });
   }
   getData(){
     const thisBooking = this;
@@ -136,7 +141,9 @@ export class Booking {
         }
       }
     }
-    console.log('Bookings: ', thisBooking.booked);
+    //console.log('Bookings: ', thisBooking.booked);
+
+    thisBooking.updateDOM();
   }
   makeBooked(date, hour, duration, table){
     const thisBooking = this;
@@ -159,5 +166,29 @@ export class Booking {
       thisBooking.booked[date][hourBlock].push(table); //po kazdej iteracji dodajemy na koniec tablicy table
     }
     //koniec rezerwacji
+  }
+  updateDOM(){
+    const thisBooking = this;
+
+    thisBooking.date = thisBooking.datePicker.value;
+    thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
+
+    for(let table in thisBooking.dom.tables){
+      let tableId = table.getAttribute(settings.booking.tableIdAttribute);
+      if (!isNaN(tableId)) {
+        tableId = parseInt(tableId);
+      }
+      console.log('tableId is:', tableId);
+
+      if (typeof thisBooking.booked[thisBooking.date] != 'undefined' && typeof thisBooking.booked[thisBooking.date[thisBooking.hour] != 'undefined' && thisBooking.booked[thisBooking.date[thisBooking.hour].includes(tableId)){
+        tableId.classList.add(classNames.booking.tableBooked);
+      }
+      else {
+        tableId.classList.remove(classNames.booking.tableBooked);
+      }
+
+      console.log(thisBooking.booked[thisBooking.date]);
+      console.log(thisBooking.booked[thisBooking.date][thisBooking.hour]);
+    }
   }
 }
