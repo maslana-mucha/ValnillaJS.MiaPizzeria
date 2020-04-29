@@ -1,4 +1,4 @@
-import {templates, select, settings} from '../settings.js';
+import {templates, select, settings, classNames} from '../settings.js';
 import { AmountWidget } from './AmountWidget.js';
 import { DatePicker } from './DatePicker.js';
 import { HourPicker } from './HourPicker.js';
@@ -161,11 +161,10 @@ export class Booking {
     for(let hourBlock = bookedTime; hourBlock < bookedTime + duration; hourBlock += 0.5){
       // blockHour = 12.5; pętla wykona iteracje od 12.5 + 4 (8 raz 30min), po 30min każda iteracja = 16:00. (12.5 13 13.5 14 14.5 15 15.5 16)
       if (typeof thisBooking.booked[date][hourBlock] == 'undefined') {
-        thisBooking.booked[date][hourBlock] = []; // tworzymy tablice z obkietu i bookedHour z wartościa początkową 12.5
+        thisBooking.booked[date][hourBlock] = []; // tworzymy tablice z obiektu i bookedHour z wartościa początkową 12.5
       }
       thisBooking.booked[date][hourBlock].push(table); //po kazdej iteracji dodajemy na koniec tablicy table
     }
-    //koniec rezerwacji
   }
   updateDOM(){
     const thisBooking = this;
@@ -173,22 +172,25 @@ export class Booking {
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
 
-    for(let table in thisBooking.dom.tables){
+    for(let table of thisBooking.dom.tables){
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
-      console.log('tableId is:', tableId);
+      //console.log('tableId is:', tableId);
 
-      if (typeof thisBooking.booked[thisBooking.date] != 'undefined' && typeof thisBooking.booked[thisBooking.date[thisBooking.hour] != 'undefined' && thisBooking.booked[thisBooking.date[thisBooking.hour].includes(tableId)){
-        tableId.classList.add(classNames.booking.tableBooked);
+      if (typeof thisBooking.booked[thisBooking.date] != 'undefined' && typeof thisBooking.booked[thisBooking.date][thisBooking.hour] != 'undefined' && thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)){
+        table.classList.add(classNames.booking.tableBooked);
+        console.log('table booked: ' + tableId);
       }
       else {
-        tableId.classList.remove(classNames.booking.tableBooked);
+        table.classList.remove(classNames.booking.tableBooked);
+        console.log('available!');
       }
-
-      console.log(thisBooking.booked[thisBooking.date]);
-      console.log(thisBooking.booked[thisBooking.date][thisBooking.hour]);
     }
+
   }
+  sendReservation(){
+  }
+
 }
