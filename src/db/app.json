@@ -232,11 +232,10 @@
     {
       "id": 2,
       "date": "2020-04-28",
-      "hour": "12:00",
-      "table": [
-        2, 3 ],
+      "hour": "12:30",
+      "table": 2,
       "repeat": "daily",
-      "duration": 6,
+      "duration": 3,
       "ppl": 3,
       "starters": ["bread", "lemonWater"]
     },

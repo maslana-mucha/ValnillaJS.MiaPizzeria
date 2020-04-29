@@ -172,20 +172,27 @@ export class Booking {
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
 
+    let tablesAvailable = false;
+
+    if (typeof thisBooking.booked[thisBooking.date] == 'undefined' &&
+      typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined') {
+      tablesAvailable = true;
+    }
+
     for(let table of thisBooking.dom.tables){
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
-      //console.log('tableId is:', tableId);
+      console.log('tableId is: ', tableId);
 
-      if (typeof thisBooking.booked[thisBooking.date] != 'undefined' && typeof thisBooking.booked[thisBooking.date][thisBooking.hour] != 'undefined' && thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)){
+      if (!tablesAvailable &&
+        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)) {
         table.classList.add(classNames.booking.tableBooked);
         console.log('table booked: ' + tableId);
-      }
-      else {
+      } else {
         table.classList.remove(classNames.booking.tableBooked);
-        console.log('available!');
+        console.log('available!' + tableId);
       }
     }
 
