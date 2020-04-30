@@ -29,9 +29,6 @@ export class Booking {
     );
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
-    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(
-      select.booking.tables
-    );
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
   }
   initWidgets(){
@@ -120,7 +117,7 @@ export class Booking {
       );
     }
     for(let event of eventsRepeat){
-      console.log('Event repeat: ', event);
+      //console.log('Event repeat: ', event);
       if(event.repeat == 'daily'){ // sprawdzamy czy element w tablicy jest "daily"
         for (let date = thisBooking.datePicker.minDate; date <= thisBooking.datePicker.maxDate; date = utils.addDays(date, 1)){
           thisBooking.makeBooked(utils.dateToStr(date), event.hour, event.duration, event.table);
@@ -141,7 +138,7 @@ export class Booking {
         }
       }
     }
-    //console.log('Bookings: ', thisBooking.booked);
+    console.log('Bookings: ', thisBooking.booked);
 
     thisBooking.updateDOM();
   }
@@ -172,30 +169,26 @@ export class Booking {
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
 
-    let tablesAvailable = false;
-
-    if (typeof thisBooking.booked[thisBooking.date] == 'undefined' &&
-      typeof thisBooking.booked[thisBooking.date][thisBooking.hour] == 'undefined') {
-      tablesAvailable = true;
-    }
-
     for(let table of thisBooking.dom.tables){
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
-      console.log('tableId is: ', tableId);
+      //console.log('tableId is: ', tableId);
 
-      if (!tablesAvailable &&
-        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)) {
+      if (
+        typeof thisBooking.booked[thisBooking.date] != 'undefined' &&
+        typeof thisBooking.booked[thisBooking.date][thisBooking.hour] !=
+          'undefined' &&
+        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
+      ) {
         table.classList.add(classNames.booking.tableBooked);
-        console.log('table booked: ' + tableId);
+        //console.log('table booked: ' + tableId);
       } else {
         table.classList.remove(classNames.booking.tableBooked);
-        console.log('available!' + tableId);
+        //console.log('available!' + tableId);
       }
     }
-
   }
   sendReservation(){
   }
