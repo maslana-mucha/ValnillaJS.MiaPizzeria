@@ -62,6 +62,7 @@ export const select = {
     remove: '[href="#remove"]',
   },
   booking: {
+    bookingForm: '.booking-form',
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
@@ -89,6 +90,7 @@ export const classNames = {
   booking: {
     loading: 'loading',
     tableBooked: 'booked',
+    tableSelected: 'selected',
   },
   nav: {
     active: 'active',
