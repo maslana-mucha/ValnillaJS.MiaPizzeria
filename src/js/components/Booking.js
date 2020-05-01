@@ -11,6 +11,7 @@ export class Booking {
     thisBooking.render(bookingContainer);
     thisBooking.initWidgets();
     thisBooking.getData();
+    thisBooking.selectTable();
     //console.log('Booking!');
   }
   render(bookingContainer){
@@ -138,17 +139,14 @@ export class Booking {
         }
       }
     }
-    console.log('Bookings: ', thisBooking.booked);
+    //console.log('Bookings: ', thisBooking.booked);
 
     thisBooking.updateDOM();
   }
   makeBooked(date, hour, duration, table){
     const thisBooking = this;
 
-    //console.log(thisBooking.booked[date]); //undefined!
-
     if (typeof thisBooking.booked[date] == 'undefined') {
-      // jeżeli wartość podanego argumentu (data w obiekcie thisBooking.booked) będzie undefined
       thisBooking.booked[date] = {}; // to stwórz nowy obiekt thisBooking.booked[date]
     }
 
@@ -167,7 +165,9 @@ export class Booking {
     const thisBooking = this;
 
     thisBooking.date = thisBooking.datePicker.value;
+    //console.log(thisBooking.date);
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
+    //console.log(thisBooking.hour);
 
     for(let table of thisBooking.dom.tables){
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
@@ -188,6 +188,36 @@ export class Booking {
         table.classList.remove(classNames.booking.tableBooked);
         //console.log('available!' + tableId);
       }
+    }
+  }
+  selectTable() {
+    const thisBooking = this;
+
+    thisBooking.date = thisBooking.datePicker.value;
+    //console.log(thisBooking.date);
+    thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
+    //console.log(thisBooking.hour);
+
+    for(let table of thisBooking.dom.tables) {
+      //console.log('table: ', table);
+      table.addEventListener('click', function() {
+        const tableId = table.getAttribute(settings.booking.tableIdAttribute);
+        const tableBooked = table.classList.contains(classNames.booking.tableBooked);
+
+        let tableBookedId = thisBooking.booked[thisBooking.date][thisBooking.hour];
+        if (!isNaN(tableBookedId)) {
+          tableBookedId = parseInt(tableBookedId);
+        }
+        //console.log('table reserved: ', tableBookedId);
+
+        if (!tableBooked){
+          table.classList.add(classNames.booking.tableBooked);
+          //console.log('table selected: ', tableId);
+        } else if (tableBooked && tableId != tableBookedId){
+          table.classList.remove(classNames.booking.tableBooked);
+          //console.log('available again: ', tableId);
+        }
+      });
     }
   }
   sendReservation(){
