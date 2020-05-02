@@ -45,6 +45,7 @@ export class Booking {
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
+    //console.log('datePicker', thisBooking.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
     thisBooking.dom.wrapper.addEventListener('updated', function(){
@@ -53,7 +54,7 @@ export class Booking {
     thisBooking.dom.form.addEventListener('submit', function (event) {
       event.preventDefault();
       thisBooking.sendReservation();
-      console.log('reservation sent!');
+      //console.log('reservation sent!');
     });
   }
   getData(){
@@ -176,8 +177,9 @@ export class Booking {
   updateDOM(){
     const thisBooking = this;
 
-    thisBooking.date = thisBooking.datePicker.correctValue;
-    //console.log(thisBooking.date);
+    thisBooking.date = thisBooking.datePicker.value;
+    //console.log('today is:', thisBooking.date);
+
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
     //console.log(thisBooking.hour);
 
@@ -243,7 +245,7 @@ export class Booking {
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: [],
+      table: {},
       ppl: thisBooking.peopleAmount.value,
       duration: thisBooking.hoursAmount.value,
       starters: [],
@@ -264,8 +266,8 @@ export class Booking {
       if (tableBooked) {
         thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
         thisBooking.tableId = parseInt(thisBooking.tableId);
-        payload.table.push(thisBooking.tableId);
-        console.log(thisBooking.tableId);
+        payload.table = thisBooking.tableId;
+        console.log(payload.table);
       }
     }
 
@@ -282,6 +284,13 @@ export class Booking {
         return response.json();
       }).then(function(parsedResponse){
         console.log('parsedResponse', parsedResponse);
+        thisBooking.makeBooked(
+          payload.date,
+          payload.hour,
+          payload.duration,
+          payload.table
+        );
+        console.log('bookingi: ', thisBooking.booked[payload.date]);
       });
 
   }
