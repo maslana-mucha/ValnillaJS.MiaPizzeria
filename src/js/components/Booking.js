@@ -31,8 +31,11 @@ export class Booking {
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
-    thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.bookingForm);
+    //thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.bookingForm);
     //console.log(thisBooking.dom.form);
+    thisBooking.dom.submitButton = thisBooking.dom.wrapper.querySelector(
+      select.booking.bookTable
+    );
     thisBooking.dom.phone = thisBooking.dom.wrapper.querySelector(select.booking.bookPhone);
     thisBooking.dom.address = thisBooking.dom.wrapper.querySelector(select.booking.bookAddress);
     thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(
@@ -51,10 +54,12 @@ export class Booking {
     thisBooking.dom.wrapper.addEventListener('updated', function(){
       thisBooking.updateDOM();
     });
-    thisBooking.dom.form.addEventListener('submit', function (event) {
-      event.preventDefault();
+    thisBooking.dom.submitButton.addEventListener('click', function () {
+      //event.preventDefault();
       thisBooking.sendReservation();
       //console.log('reservation sent!');
+      location.href='http://localhost:3000/#/booking';
+      //setTimeout('location.href='http://localhost:3000/#/booking';', 5000);
     });
   }
   getData(){
@@ -297,6 +302,5 @@ export class Booking {
         );
         console.log('zabukowany: ', thisBooking.booked[payload.date]);
       });
-
   }
 }
