@@ -160,19 +160,23 @@ export class Booking {
     const thisBooking = this;
 
     if (typeof thisBooking.booked[date] == 'undefined') {
-      thisBooking.booked[date] = {}; // to stwórz nowy obiekt thisBooking.booked[date]
+      thisBooking.booked[date] = {};
     }
 
     const bookedTime = utils.hourToNumber(hour);
     //console.log('booked time: ', bookedTime);
 
     for(let hourBlock = bookedTime; hourBlock < bookedTime + duration; hourBlock += 0.5){
-      // blockHour = 12.5; pętla wykona iteracje od 12.5 + 4 (8 raz 30min), po 30min każda iteracja = 16:00. (12.5 13 13.5 14 14.5 15 15.5 16)
       if (typeof thisBooking.booked[date][hourBlock] == 'undefined') {
-        thisBooking.booked[date][hourBlock] = []; // tworzymy tablice z obiektu i bookedHour z wartościa początkową 12.5
+        thisBooking.booked[date][hourBlock] = [];
       }
-      thisBooking.booked[date][hourBlock].push(table); //po kazdej iteracji dodajemy na koniec tablicy table
+
+      for(let tableId = 0; tableId < table.length; tableId++){
+        thisBooking.booked[date][hourBlock].push(table[tableId]);
+        //console.log('adding table nr', table[tableId]);
+      }
     }
+    //console.log(thisBooking.booked[date]);
   }
   updateDOM(){
     const thisBooking = this;
@@ -245,7 +249,7 @@ export class Booking {
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: {},
+      table: [],
       ppl: thisBooking.peopleAmount.value,
       duration: thisBooking.hoursAmount.value,
       starters: [],
@@ -266,8 +270,9 @@ export class Booking {
       if (tableBooked) {
         thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
         thisBooking.tableId = parseInt(thisBooking.tableId);
-        payload.table = thisBooking.tableId;
-        console.log(payload.table);
+
+        payload.table.push(thisBooking.tableId);
+        //console.log(thisBooking.tableId);
       }
     }
 
@@ -290,7 +295,7 @@ export class Booking {
           payload.duration,
           payload.table
         );
-        console.log('bookingi: ', thisBooking.booked[payload.date]);
+        console.log('zabukowany: ', thisBooking.booked[payload.date]);
       });
 
   }
