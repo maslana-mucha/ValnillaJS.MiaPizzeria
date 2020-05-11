@@ -70,7 +70,6 @@ export const select = {
     bookPhone: '.booking-form [name="phone"]',
     bookAddress: '.booking-form [name="address"]',
     starters: '[name="starter"]',
-
   },
   nav: {
     links: '.main-nav a',

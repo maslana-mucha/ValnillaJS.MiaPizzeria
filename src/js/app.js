@@ -8,13 +8,27 @@ export const app = {
     const thisApp = this;
 
     thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
-
     thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
     //console.log(thisApp.navLinks);
-
+    thisApp.homeLinks = document.querySelectorAll(select.home.links);
+    //console.log(thisApp.homeLinks);
     thisApp.activatePage(thisApp.pages[0].id);
 
+    /*
     for(let link of thisApp.navLinks){
+      link.addEventListener('click', function(event){
+        const clickedElement = this;
+        //console.log(clickedElement);
+        event.preventDefault();
+        let pageId = clickedElement.getAttribute('href');
+        pageId = pageId.replace('#', '');
+        //console.log('pageId is: ', pageId);
+        thisApp.activatePage(pageId);
+      });
+    }
+    --> changed when adding a homepage */
+
+    for(let link of thisApp.homeLinks){
       link.addEventListener('click', function(event){
         const clickedElement = this;
         //console.log(clickedElement);
@@ -84,6 +98,62 @@ export const app = {
     //console.log('booking container: ', bookingContainer);
     thisApp.booking = new Booking(bookingContainer);
   },
+  initCarousel() {    // eslint-disable-next-line no-unused-vars
+
+    const review = [];
+
+    review[0] = {
+      title: 'Delicious food',
+      text:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae quam suscipit, interdum arcu nec,',
+      name: '- John Smith',
+    };
+    review[1] = {
+      title: 'Amazing service!',
+      text:
+        'Aenean vitae quam suscipit, interdum arcu nec, lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      name: '- Margaret Osborne',
+    };
+    review[2] = {
+      title: 'Great place',
+      text: 'Mauris maximus ipsum sed!!!',
+      name: '- Mark Miller',
+    };
+    let i = 0;
+    //console.log(review[0]);
+
+    const dots = document.querySelectorAll('.carousel-dots i');
+    //console.log(dots);
+
+    function changeSlide() {
+      const title = document.querySelector('.review-title');
+      const text = document.querySelector('.review-text');
+      const name = document.querySelector('.review-name');
+
+      for (let dot of dots) {
+        if (dot.id == 'dot-'+ (i + 1)) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+        title.innerHTML = review[i].title;
+        text.innerHTML = review[i].text;
+        name.innerHTML = review[i].name;
+      }
+
+      if (i < review.length - 1) {
+        i++;
+      } else {
+        i = 0;
+      }
+    }
+    changeSlide();
+
+    setInterval(() => {
+      changeSlide();
+    }, 3000);
+  },
+
   init: function(){
     const thisApp = this;
     //console.log('*** App starting ***');
@@ -94,6 +164,7 @@ export const app = {
     //thisApp.initMenu(); //deleting according to AJAX impl
     thisApp.initCart();
     thisApp.initBooking();
+    thisApp.initCarousel();
   },
 };
 
