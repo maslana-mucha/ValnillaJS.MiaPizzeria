@@ -72,10 +72,10 @@ export const select = {
     starters: '[name="starter"]',
   },
   nav: {
-    links: '.main-nav a',
+    links: 'a.nav-link',
   },
-  home: {
-    links:  'a.nav-link'
+  logo: {
+    link: '.logo__link',
   },
 };
 

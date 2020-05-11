@@ -69,8 +69,7 @@ $homepage-font-family: "Oswald", sans-serif;
 
 /* Carousel */
 .carousel-container {
-  margin: 102px;
-  margin-left: 4px;
+  margin: 50px 4px;
 }
 .carousel-wrapper {
   display: flex;
@@ -87,18 +86,20 @@ $homepage-font-family: "Oswald", sans-serif;
   border-radius: 4px;
 }
 .carousel-review-wrapper {
-  width: 380px;
   height: 192px;
   margin-left: 48px;
-}
-.review-title {
-  text-transform: uppercase;
-  font-weight: 600;
-}
-.review-name {
-  margin-top: 28px;
-  font-style: italic;
-  font-weight: 400;
+  width: 100%;
+
+  .review-title {
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .review-name {
+    margin-top: 28px;
+    font-style: italic;
+    font-weight: 400;
+  }
 }
 .carousel-dots {
   display: flex;

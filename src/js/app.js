@@ -10,11 +10,10 @@ export const app = {
     thisApp.pages = Array.from(document.querySelector(select.containerOf.pages).children);
     thisApp.navLinks = Array.from(document.querySelectorAll(select.nav.links));
     //console.log(thisApp.navLinks);
-    thisApp.homeLinks = document.querySelectorAll(select.home.links);
-    //console.log(thisApp.homeLinks);
+    thisApp.logoLink = document.querySelector(select.logo.link);
+    //console.log(thisApp.logoLink);
     thisApp.activatePage(thisApp.pages[0].id);
 
-    /*
     for(let link of thisApp.navLinks){
       link.addEventListener('click', function(event){
         const clickedElement = this;
@@ -26,21 +25,15 @@ export const app = {
         thisApp.activatePage(pageId);
       });
     }
-    --> changed when adding a homepage */
 
-    for(let link of thisApp.homeLinks){
-      link.addEventListener('click', function(event){
-        const clickedElement = this;
-        //console.log(clickedElement);
-        event.preventDefault();
-        /* TODO: get page id from href */
-        let pageId = clickedElement.getAttribute('href');
-        pageId = pageId.replace('#', '');
-        //console.log('pageId is: ', pageId);
-        /* TODO: activate page */
-        thisApp.activatePage(pageId);
-      });
-    }
+    thisApp.logoLink.addEventListener('click', function(event){
+      const clickedElement = this;
+      event.preventDefault();
+      let pageId = clickedElement.getAttribute('href');
+      pageId = pageId.replace('#', '');
+      //console.log('pageId is: ', pageId);
+      thisApp.activatePage(pageId);
+    });
   },
   activatePage: function(pageId){
     const thisApp = this;
