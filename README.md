@@ -1,1 +1,1 @@
-Check my app on: https://git.heroku.com/miapizzeria.git
+Check my app on: https://miapizzeria.herokuapp.com/#/home
