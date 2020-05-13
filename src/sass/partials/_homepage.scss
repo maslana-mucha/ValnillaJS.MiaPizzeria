@@ -2,20 +2,20 @@
   margin: 42px auto;
   padding: 72px 44px;
   background: $color-light;
-  border-radius: 4px;
+  border-radius: $radius;
 }
 
 .links-wrapper {
   display: flex;
   flex-direction: row;
-  max-height: 121px;
+  height: 121px;
 }
 
 .link-wrapper {
-  border-radius: 4px;
   flex: 1 0 45%;
   background-position: center;
   background-repeat: no-repeat;
+  border-radius: $radius;
 
   &__order {
     margin-right: 4px;
@@ -28,7 +28,7 @@
   }
 
   :hover h2 {
-    margin: 16px 0 10px 0;
+    margin: 22px 0 8px 0;
   }
 
   :hover p {
@@ -44,43 +44,42 @@
   &__subtitle {
     @extend .h1;
     margin: 40px 0 0 0;
-    transition: margin .6s ease-out;
+    transition: margin .3s ease-out;
   }
 
   &__hidden-subtitle {
     margin-top: 0;
     opacity: 0;
-    transition: opacity .6s ease-out;
+    transition: opacity .3s ease-out;
   }
 }
 
 .hours-wrapper {
   margin-top: 8px;
   position: relative;
-  min-height: 121px;
+  height: 121px;
   background-color: $color-main;
-  border-radius: 4px;
+  border-radius: $radius;
   text-align: center;
 }
 
 .hours {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  @include center();
+  height: 100%;
+
+  h2 {
+    @extend .h1;
+    margin: 22px 0 5px 0;
+    color: $color-light;
+  }
 
   p {
-    text-transform: uppercase;
+    margin-top: 0;
     color: $color-light;
-    font-family: $homepage-font-family;
-    font-weight: 400;
-
-    span {
-      font-size: 16px;
-      font-family: $homepage-font-family;
-      font-weight: 300;
-    }
+    font-family: $font-text;
+    font-weight: $font-light;
+    text-transform: uppercase;
+    font-size: 14px;
   }
 }
 
@@ -90,19 +89,16 @@
 }
 
 .carousel-wrapper {
+  @include flex(row, center, space-between);
   margin: 100px 0 21px 0;
-  display: flex;
-  flex-direction: row;
   overflow: hidden;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .carousel-image-holder img {
   object-fit: cover;
   height: 192px;
   width: 192px;
-  border-radius: 4px;
+  border-radius: $radius;
 }
 
 .carousel-review-wrapper {
@@ -112,23 +108,21 @@
 
   .review-title {
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: $font-semibold;
   }
 
   .review-name {
     margin-top: 28px;
     font-style: italic;
-    font-weight: 400;
+    font-weight: $font-normal;
   }
 }
 
 .carousel-dots {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex(row, center, center);
 
   i {
-    color: #333;
+    color: $color-dark;
     margin: 8px;
     font-size: 10px;
 
@@ -140,8 +134,7 @@
 
 /* Gallery */
 .gallery-wrapper {
-  display: flex;
-  flex-direction: row;
+  @include flex(row, center, center);
   flex-wrap: wrap;
 }
 
@@ -156,25 +149,19 @@
     object-fit: cover;
     height: 100%;
     width: 100%;
-    border-radius: 4px;
+    border-radius: $radius;
   }
 }
 
 .icon-overlay {
+  @include center();
+  @include flex(row, center, center);
   width: 100%;
   height: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, .4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-
+  border-radius: $radius;
   opacity: 0;
-  position: absolute;
-  transition: opacity .4s;
+  transition: opacity .3s;
 
   i {
     display: inline-block;
@@ -182,7 +169,7 @@
     color: $color-light;
     letter-spacing: 8px;
     position: relative;
-    transition: color .4s;
+    transition: color .3s;
   }
 }
 
