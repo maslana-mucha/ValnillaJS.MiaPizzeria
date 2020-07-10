@@ -96,6 +96,13 @@ export class Cart {
       thisCart.deliveryFee
     ); */
 
+    if (thisCart.totalNumber > 0) {
+      thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
+    } else {
+      thisCart.totalPrice = 0;
+      console.log('wykonano!');
+    }
+
     for(let key of thisCart.renderTotalsKeys){
       for(let elem of thisCart.dom[key]){
         elem.innerHTML = thisCart[key];
