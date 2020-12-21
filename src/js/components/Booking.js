@@ -241,7 +241,7 @@ export class Booking {
         //console.log('available!' + tableId);
       }
     }
-    // thisBooking.rangeSliderColour();
+    thisBooking.rangeSliderColour();
   }
   selectTable() {
     const thisBooking = this;
@@ -318,43 +318,38 @@ export class Booking {
         console.log('booked: ', thisBooking.booked[payload.date]);
       });
 
-    alert('Your reservation sent');
+    alert('You have made a reservation');
   }
-  // rangeSliderColour() {
-  //   const thisBooking = this;
+  rangeSliderColour() {
+    const thisBooking = this;
 
-  //   thisBooking.date = thisBooking.datePicker.value;
-  //   console.log('today is:', thisBooking.date);
-  //   const bookedHours = thisBooking.booked[thisBooking.date];
-  //   console.log('hours booked today: ', bookedHours);
+    thisBooking.date = thisBooking.datePicker.value;
+    const hoursBooked = thisBooking.booked[thisBooking.date];
 
-  //   thisBooking.dom.rangeSlider = thisBooking.dom.wrapper.querySelector(
-  //     select.widgets.hourPicker.slider
-  //   );
-  //   //console.log(thisBooking.dom.rangeSlider);
+    const gradientArr = [];
+    const gradient = 6;
+    let time = 12;
+    let color;
 
-  //   const sliderColours = [];
+    for (let i = 0; i < 24; i++) {
+      if (hoursBooked.hasOwnProperty(time)) {
+        if (hoursBooked[time].length <= 2) {
+          color = 'orange';
+        } else {
+          color = 'red';
+        }
+      } else {
+        color = 'green';
+      }
+      gradientArr.push(`${color} ${gradient}%`);
+      time += 0.5;
+      i++;
+    }
 
-  //   for (let bookedHour in bookedHours) {
-  //     const firstOfInterval = ((bookedHour - 12) * 100) / 12;
-  //     console.log(firstOfInterval);
-  //     const secondOfInterval = (((bookedHour - 12) + .5) * 100) / 12;
-  //     if (bookedHour < 24) {
-  //       if (bookedHours[bookedHour].length <= 1) {
-  //         sliderColours.push('/*' + bookedHour + '*/green ' + firstOfInterval + '%, green ' + secondOfInterval + '%');
-  //         console.log(sliderColours);
-  //       } else if (bookedHours[bookedHour].length === 2) {
-  //         sliderColours.push('/*' + bookedHour + '*/orange ' + firstOfInterval + '%, orange ' + secondOfInterval + '%');
-  //       } else if (bookedHours[bookedHour].length === 3) {
-  //         sliderColours.push('/*' + bookedHour + '*/red ' + firstOfInterval + '%, red ' + secondOfInterval + '%');
-  //       }
-  //     }
-  //   }
-  //   sliderColours.sort();
-  //   const liveColours = sliderColours.join();
+    console.log(gradientArr);
 
-  //   const slider = thisBooking.dom.rangeSlider;
-  //   console.log(slider);
-  //   slider.style.background = 'linear-gradient(to right, ' + liveColours + ')';
-  // }
+    thisBooking.dom.wrapper.querySelector(
+      select.widgets.hourPicker.slider
+    ).style.background = `linear-gradient(90deg, ${gradientArr})`;
+  }
 }
