@@ -12,7 +12,6 @@ export class Booking {
     thisBooking.initWidgets();
     thisBooking.getData();
     thisBooking.selectTable();
-    //console.log('Booking!');
   }
   render(bookingContainer) {
     const thisBooking = this;
@@ -69,6 +68,7 @@ export class Booking {
     thisBooking.dom.submitButton.addEventListener('click', function (event) {
       event.preventDefault();
       thisBooking.sendReservation();
+      // thisBooking.rangeSliderColour();
       //console.log('reservation sent!');
     });
   }
@@ -215,18 +215,15 @@ export class Booking {
   updateDOM() {
     const thisBooking = this;
 
-    thisBooking.date = thisBooking.datePicker.value;
-    //console.log('today is:', thisBooking.date);
-
-    thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
-    //console.log(thisBooking.hour);
+    thisBooking.date = thisBooking.datePicker.value; // what day;
+    thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value); // what hour;
 
     for (let table of thisBooking.dom.tables) {
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
+
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
-      //console.log('tableId is: ', tableId);
 
       if (
         typeof thisBooking.booked[thisBooking.date] != 'undefined' &&
@@ -318,7 +315,7 @@ export class Booking {
         console.log('booked: ', thisBooking.booked[payload.date]);
       });
 
-    alert('You have made a reservation');
+    alert('Thank you for the reservation!');
   }
   rangeSliderColour() {
     const thisBooking = this;
@@ -327,7 +324,7 @@ export class Booking {
     const hoursBooked = thisBooking.booked[thisBooking.date];
 
     const gradientArr = [];
-    const gradient = 6;
+    let gradient = 0;
     let time = 12;
     let color;
 
@@ -342,14 +339,14 @@ export class Booking {
         color = 'green';
       }
       gradientArr.push(`${color} ${gradient}%`);
+      gradient += 100 / 24;
       time += 0.5;
-      i++;
     }
 
-    console.log(gradientArr);
+    const coloursString = gradientArr.join(', ');
 
     thisBooking.dom.wrapper.querySelector(
       select.widgets.hourPicker.slider
-    ).style.background = `linear-gradient(90deg, ${gradientArr})`;
+    ).style.background = `linear-gradient(90deg, ${coloursString})`;
   }
 }
