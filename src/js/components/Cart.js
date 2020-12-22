@@ -67,10 +67,20 @@ export class Cart {
 
     thisCart.dom.form.addEventListener('submit', function (event) {
       event.preventDefault();
-      thisCart.formValidation();
-      thisCart.sendOrder();
-      // window.location.reload(true);
-      // alert('Thank you for ordering from us!');
+      const validation = thisCart.formValidation();
+      if (validation.correct) {
+        thisCart.sendOrder();
+        window.location.reload(true);
+        alert('Thank you for ordering from us!');
+      } else if (!validation.phone && !validation.address) {
+        alert(
+          'Please provide us with a 9 digits phone number and your correct address.'
+        );
+      } else if (!validation.phone) {
+        alert('Phone number should be 9 digits long!');
+      } else if (!validation.address) {
+        alert('Please provide your address!');
+      }
     });
   }
   add(menuProduct) {
