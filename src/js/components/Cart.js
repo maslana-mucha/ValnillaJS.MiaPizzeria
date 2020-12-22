@@ -57,11 +57,20 @@ export class Cart {
     thisCart.dom.productList.addEventListener('remove', function () {
       thisCart.remove(event.detail.cartProduct);
     });
+    thisCart.dom.phone.addEventListener('change', () => {
+      // console.log(thisCart.dom.phone.value);
+    });
+
+    thisCart.dom.address.addEventListener('change', () => {
+      // console.log(thisCart.dom.address.value);
+    });
+
     thisCart.dom.form.addEventListener('submit', function (event) {
       event.preventDefault();
+      thisCart.formValidation();
       thisCart.sendOrder();
-      window.location.reload(true);
-      alert('Thank you for ordering from us!');
+      // window.location.reload(true);
+      // alert('Thank you for ordering from us!');
     });
   }
   add(menuProduct) {
@@ -158,5 +167,33 @@ export class Cart {
       .then(function (parsedResponse) {
         console.log('parsed response: ', parsedResponse);
       });
+  }
+
+  formValidation() {
+    const thisCart = this;
+
+    let phone = false;
+    let address = false;
+    let correct = false;
+
+    const thisCartPhone = thisCart.dom.phone.value;
+    const thisCartAddress = thisCart.dom.address.value;
+
+    if (thisCartPhone.length === 9 && !isNaN(thisCartPhone)) {
+      phone = true;
+      // console.log('phone is correct!');
+    }
+    if (thisCartAddress) {
+      address = true;
+    }
+    if (phone && address) {
+      correct = true;
+    }
+
+    return {
+      correct,
+      phone,
+      address,
+    };
   }
 }
